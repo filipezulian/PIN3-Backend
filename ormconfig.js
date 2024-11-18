@@ -1,5 +1,7 @@
+const dir = process.env.NODE_ENV.trim() == 'src';
+
 module.exports = {
-    type: 'psql',
+    type: 'postgres',
     port: Number(process.env.DB_PORT),
     host: process.env.DB_HOST,
     username: process.env.DB_USER,
@@ -9,4 +11,7 @@ module.exports = {
         trustServerCertificate: true,
         encrypt: false,
     },
+    migrations: [`./${dir}/database/migrations/*.*`],
+    seeds: [`${dir}/database/seed.ts`],
+    entities: [`./src/modules/**/entities/*.*`],
 };
