@@ -1,6 +1,7 @@
 import { swaggerRoutes } from "@config/swagger";
 import { errorMiddleware } from "@middleware/AppError";
 import { authRoutes } from "@modules/Auth/routes";
+import { jogadorRoutes } from "@modules/Jogadores/routes/Index";
 import { usuarioRoutes } from "@modules/Users/routes";
 import { Router } from "express";
 
@@ -18,9 +19,14 @@ const moduleRegister = [
     handlers: usuarioRoutes,
   },
   {
-    name: 'login',
-    url: '/login',
+    name: 'Auth',
+    url: '/',
     handlers: authRoutes,
+  },
+  {
+    name: 'Jogador',
+    url: '/jogador',
+    handlers: jogadorRoutes,
   }
 ];
 

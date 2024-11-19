@@ -2,10 +2,12 @@ import 'express';
 
 declare module 'express' {
   export interface Request {
-    user: {
-    usr_id: number,
-    usr_name: string,
-    usr_email: string
+    user?: {
+      id: number;
+      name: string;
+      email: string;
+      iat?: number;
+      exp?: number;
     };
   }
 }

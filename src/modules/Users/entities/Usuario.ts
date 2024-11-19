@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Jogador } from "@modules/Jogadores/entities/Jogador";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('usuario')
 class Usuario {
@@ -14,6 +15,8 @@ class Usuario {
     @Column({ length: 100 })
     usr_password: string;
 
+    @OneToMany(() => Jogador, (jogador) => jogador.jog_owner)
+    jogador: Jogador[];
     constructor() { }
 }
 

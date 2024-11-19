@@ -1,15 +1,10 @@
-interface TokenData {
-    accessToken: string;
-    refreshToken: string;
-  }
+  const tokenStore: Record<number, string> = {};
   
-  const tokenStore: Record<number, TokenData> = {};
-  
-  export const setToken = (userId: number, accessToken: string, refreshToken: string): void => {
-    tokenStore[userId] = { accessToken, refreshToken };
+  export const setToken = (userId: number, accessToken: string): void => {
+    tokenStore[userId] = accessToken;
   };
   
-  export const getToken = (userId: number): TokenData | null => {
+  export const getToken = (userId: number): string | null => {
     return tokenStore[userId] || null;
   };
   
@@ -17,6 +12,6 @@ interface TokenData {
     delete tokenStore[userId];
   };
   
-  export const getTokenStore = (): Record<number, TokenData> => {
+  export const getTokenStore = (): Record<number, string> => {
     return tokenStore;
   };
