@@ -1,8 +1,9 @@
 import { AppError } from "@config/AppError";
 import { Jogador } from "../entities/Jogador";
 import { IJogadorRepository } from "./IJogadorRepository";
-import { getRepository, Repository } from "typeorm";
+import { getManager, getRepository, Repository } from "typeorm";
 import { JogadorDTO } from "../dtos/JogadorDTO";
+import { EstatisticaJogador } from "@modules/EstatisticaJogador/entities/EstatisticaJogador";
 
 class JogadorRepository implements IJogadorRepository {
     private jogadorRepository: Repository<Jogador>;
@@ -50,7 +51,7 @@ class JogadorRepository implements IJogadorRepository {
             const jogadorAtualizado = {
                 ...jogador,
                 jog_name: name ?? jogador.jog_name,
-                jog_gender: gender ?? jogador.jog_gender,
+                jog_gender: gender ?? jogador.jog_gender.toLowerCase(),
             };
 
             await this.jogadorRepository.save(jogadorAtualizado);
@@ -59,7 +60,7 @@ class JogadorRepository implements IJogadorRepository {
                 id: jogador.jog_id,
                 owner: ownerId,
                 name: jogadorAtualizado.jog_name,
-                gender: jogadorAtualizado.jog_gender,
+                gender: jogadorAtualizado.jog_gender.toLowerCase(),
             };
         } catch (error) {
             console.log(error);
@@ -71,19 +72,24 @@ class JogadorRepository implements IJogadorRepository {
         try {
             const jogador = this.jogadorRepository.create({
                 jog_name: name,
-                jog_gender: gender,
-                jog_owner: ownerId
-            })
+                jog_gender: gender.toLowerCase(),
+                jog_owner: ownerId,
+            });
+
+            if (!jogador) {
+                throw new AppError("Algo deu errado, tente novamente mais tarde!", 401);
+            }
+
             await this.jogadorRepository.save(jogador);
             return {
                 jog_id: jogador.jog_id,
                 jog_name: jogador.jog_name,
-                jog_gender: jogador.jog_gender,
+                jog_gender: jogador.jog_gender.toLowerCase(),
                 owner: jogador.jog_owner
             }
         } catch (error) {
             console.log(error)
-            throw new AppError('Algo deu errado, tente novamente mais tarde!', 500)
+            throw new AppError(error.message, error.statusCode || 500);
         }
     }
     async listJogadorByOwner(ownerId: number): Promise<Jogador[]> {

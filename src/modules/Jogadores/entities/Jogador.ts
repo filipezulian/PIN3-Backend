@@ -1,5 +1,6 @@
+import { EstatisticaJogador } from "@modules/EstatisticaJogador/entities/EstatisticaJogador";
 import { Usuario } from "@modules/Users/entities/Usuario";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('jogador')
 class Jogador {
@@ -14,6 +15,9 @@ class Jogador {
 
     @Column({ unique: false })
     jog_owner: number;
+
+    @OneToOne(() => EstatisticaJogador, estatistica => estatistica.jogador)
+    estatistica: EstatisticaJogador;
 
     @ManyToOne(() => Usuario, usuario => usuario.usr_id, {
         onDelete: 'CASCADE',

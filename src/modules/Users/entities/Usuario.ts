@@ -1,4 +1,5 @@
 import { Jogador } from "@modules/Jogadores/entities/Jogador";
+import { Time } from "@modules/Times/entities/Time";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('usuario')
@@ -17,6 +18,10 @@ class Usuario {
 
     @OneToMany(() => Jogador, (jogador) => jogador.jog_owner)
     jogador: Jogador[];
+
+    @OneToMany(() => Time, (time) => time.tim_owner)
+    time: Time[];
+
     constructor() { }
 }
 

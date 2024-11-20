@@ -1,7 +1,11 @@
 import { swaggerRoutes } from "@config/swagger";
 import { errorMiddleware } from "@middleware/AppError";
 import { authRoutes } from "@modules/Auth/routes";
-import { jogadorRoutes } from "@modules/Jogadores/routes/Index";
+import { chaveamentoRoutes } from "@modules/Chaveamentos/routes";
+import { estatisticaJogadorRoutes } from "@modules/EstatisticaJogador/routes";
+import { estatisticaTimeRoutes } from "@modules/EstatisticaTime/routes";
+import { jogadorRoutes } from "@modules/Jogadores/routes";
+import { timeRoutes } from "@modules/Times/routes";
 import { usuarioRoutes } from "@modules/Users/routes";
 import { Router } from "express";
 
@@ -27,7 +31,27 @@ const moduleRegister = [
     name: 'Jogador',
     url: '/jogador',
     handlers: jogadorRoutes,
-  }
+  },
+  {
+    name: 'EstatisticaJogador',
+    url: '/jogador/estatistica',
+    handlers: estatisticaJogadorRoutes
+  },
+  {
+    name: 'Chaveamento',
+    url: '/chaveamento',
+    handlers: chaveamentoRoutes
+  },
+  {
+    name: 'Time',
+    url: '/time',
+    handlers: timeRoutes
+  },
+  {
+    name: 'Time',
+    url: '/time/estatistica',
+    handlers: estatisticaTimeRoutes
+  },
 ];
 
 moduleRegister.map((module) => {
