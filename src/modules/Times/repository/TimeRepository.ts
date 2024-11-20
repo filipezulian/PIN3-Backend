@@ -5,14 +5,63 @@ import { ITimeRepository } from "./ITimeRepository";
 import { AppError } from "@config/AppError";
 import { EstatisticaTime } from "@modules/EstatisticaTime/entities/EstatisticaTime";
 import { EditTimeDTO } from "../dtos/EditTimeDTO";
+import { Gender } from "utils/Gender";
+import { inject, injectable } from "tsyringe";
+import { IJogadorRepository } from "@modules/Jogadores/repository/IJogadorRepository";
 
+@injectable()
 class TimeRepository implements ITimeRepository {
     private timeRepository: Repository<Time>;
     private estatisticaRepository: Repository<EstatisticaTime>;
 
-    constructor() {
+    constructor(
+        @inject('JogadorRepository')
+        private jogadorRepository: IJogadorRepository
+    ) {
         this.timeRepository = getRepository(Time);
         this.estatisticaRepository = getRepository(EstatisticaTime);
+    }
+
+    async generateTimesMisto(jogadoresIds: number[], amountTimes: number, playersPerTeam: number) {
+        try {
+            // Fetch jogador objects from the database
+            const jogadores = await Promise.all(
+                jogadoresIds.map((id) => this.jogadorRepository.jogadorById(id))
+            );
+    
+            // Separate jogadores by gender
+            const masculino = jogadores.filter(jogador => jogador.jog_gender === Gender.MASCULINO);
+            const feminino = jogadores.filter(jogador => jogador.jog_gender === Gender.FEMININO);
+    
+            const teams = [];
+            for (let i = 0; i < amountTimes; i++) {
+                const team = [];
+    
+                for (let j = 0; j < playersPerTeam / 2; j++) {
+                    if (masculino.length > 0) {
+                        team.push(masculino.shift());
+                    } else {
+                        throw new AppError('Não há jogadores masculinos suficientes para gerar um time misto', 400);
+                    }
+    
+                    if (feminino.length > 0) {
+                        team.push(feminino.shift());
+                    } else {
+                        throw new AppError('Não há jogadores femininos suficientes para gerar um time misto', 400);
+                    }
+                }
+    
+                teams.push({
+                    tim_name: `Time ${i + 1}`,
+                    jogadores: team.map(jogador => jogador.jog_id),
+                });
+            }
+    
+            return teams;
+        } catch (error) {
+            console.error(error);
+            throw new AppError(error.message, error.statusCode || 500);
+        }
     }
 
     generateTimes(jogadores: number[], amountTimes: number, playersPerTeam: number) {

@@ -25,12 +25,21 @@ class JogadorRepository implements IJogadorRepository {
 
     async jogadorById(id: number, ownerId: number) {
         try {
-            const jogador = await this.jogadorRepository.findOne({
-                where: {
-                    jog_id: id,
-                    jog_owner: ownerId
-                }
-            });
+            let jogador: Jogador;
+            if (ownerId) {
+                jogador = await this.jogadorRepository.findOne({
+                    where: {
+                        jog_id: id,
+                        jog_owner: ownerId
+                    }
+                });
+            } else {
+                jogador = await this.jogadorRepository.findOne({
+                    where: {
+                        jog_id: id,
+                    }
+                });
+            }
             if (jogador) {
                 return jogador;
             } else {

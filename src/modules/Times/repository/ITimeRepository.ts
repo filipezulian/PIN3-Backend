@@ -9,6 +9,7 @@ interface ITimeRepository {
     listByUsuario(usuarioId: number)
     edit(editInfo: EditTimeDTO): Promise<EditTimeDTO | any>
     generateTimes(jogadores: number[], amountTimes: number, playersPerTeam: number);
+    generateTimesMisto(jogadores: number[], amountTimes: number, playersPerTeam: number);
 }
 
 export { ITimeRepository }

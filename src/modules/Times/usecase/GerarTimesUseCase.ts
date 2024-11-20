@@ -21,26 +21,30 @@ class GerarTimesUseCase {
     async execute({ esporteId, tim_gender, jogadores, usuarioId, playersPerTeam }: GerarTimeDTO) {
         const esporte = await this.esporteRepository.getEsporteById(esporteId);
         const gender = tim_gender.toLowerCase();
-        /*Validação de jogadores:
-            1 - Valida se o jogador existe
-            2 - Valida se o gênero do jogador é igual ao do time
-        */
-        await this.validateJogadores(jogadores, gender, usuarioId);
-
+        
         /*Validação de quantidade de jogadores por time:
-            1 - Valida se a quantidade de jogador por times segue a regra do esporte selecionado
-            2 - Valida se tem jogador suficiente para gerar times
+        1 - Valida se a quantidade de jogador por times segue a regra do esporte selecionado
+        2 - Valida se tem jogador suficiente para gerar times
         */
-        this.validateAmountPlayersPerTeam(playersPerTeam, jogadores, esporte);
+       this.validateAmountPlayersPerTeam(playersPerTeam, jogadores, esporte);
+       
+       /*Validação de quantidade de times:
+           1 - Valida se não terá jogador sobrando ao gerar times. 
+               Se não terá, retorna a quantidade de times possiveis.
+       */
+        const amountTimes = this.validateAmountOfPlayers(jogadores, playersPerTeam);
 
-        /*Validação de quantidade de times:
-            1 - Valida se não terá jogador sobrando ao gerar times. 
-                Se não terá, retorna a quantidade de times possiveis.
-        */
-        const amountTimes = this.calculateAmountTimes(jogadores, playersPerTeam);
-        this.validateAmountOfPlayers(jogadores, playersPerTeam);
+       /*Validação de jogadores:
+           1 - Valida se o gênero do jogador é igual ao do time
+           2 - Em caso de times mistos, é validado as quantidades de jogadores masculinos e femininos
+       */
+       await this.validateJogadoresGender(jogadores, gender, usuarioId, amountTimes);
 
-        return await this.timeRepository.generateTimes(jogadores, amountTimes, playersPerTeam);
+
+        if (gender !== Gender.MISTO) {
+            return await this.timeRepository.generateTimes(jogadores, amountTimes, playersPerTeam);
+        }
+        return await this.timeRepository.generateTimesMisto(jogadores, amountTimes, playersPerTeam);
     }
 
     validateAmountOfPlayers(jogadores: number[], playersPerTeam: number) {
@@ -50,19 +54,34 @@ class GerarTimesUseCase {
             const playersNeeded = remainder === 0 ? 0 : playersPerTeam - remainder;
             throw new AppError(`Faltam ${playersNeeded} jogador(es) para pode gerar ${Math.ceil(maxTimes)} times com ${playersPerTeam} jogador(es) em cada time`, 400)
         }
+        return maxTimes
     }
 
     calculateMaxTeams(jogadores: number[], playersPerTeam: number) {
         return jogadores.length / playersPerTeam
     }
 
-    async validateJogadores(jogadores: number[], gender: string, usuarioId: number) {
-        for (var jogadorId of jogadores) {
-            const jogador = await this.jogadorRepository.jogadorById(jogadorId, usuarioId);
-            if (gender != Gender.MISTO) {
+    async validateJogadoresGender(jogadores: number[], gender: string, usuarioId: number, amountTimes: number) {
+        const jogadoresData = await Promise.all(
+            jogadores.map(jogadorId => this.jogadorRepository.jogadorById(jogadorId, usuarioId))
+        );
+        let masculino = 0;
+        let feminino = 0;
+        jogadoresData.forEach(jogador => {
+            if (gender !== Gender.MISTO) {
                 if (jogador.jog_gender !== gender) {
-                    throw new AppError(`Jogador(a) ${jogador.jog_name} não é do gênero ${gender}`, 400)
+                    throw new AppError(`Jogador(a) ${jogador.jog_name} não é do gênero ${gender}`, 400);
                 }
+            } else {
+                jogador.jog_gender === Gender.MASCULINO ? masculino++ : feminino++;
+            }
+        });
+        if (gender === Gender.MISTO) {
+            if (!Number.isInteger(masculino/amountTimes) || !Number.isInteger(feminino/amountTimes)) {
+                throw new AppError('Só é gerado times misto onde todos os times terão a mesma quantidade de jogadores femininos e masculinos', 400);
+            }
+            if (masculino !== feminino){ 
+                throw new AppError('Por favor selecione a mesma quantidade de jogadores femininos e masculinos', 400);
             }
         }
     }
@@ -75,11 +94,6 @@ class GerarTimesUseCase {
             throw new AppError('Não tem jogadores suficiente para gerar times')
         }
     }
-
-    calculateAmountTimes(jogadores: number[], playersPerTeam: number) {
-        return jogadores.length / playersPerTeam;
-    }
-
 }
 
 export { GerarTimesUseCase }
