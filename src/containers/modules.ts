@@ -1,5 +1,7 @@
 import { ChaveamentoRepository } from "@modules/Chaveamentos/repository/ChaveamentoRepository";
 import { IChaveamentoRepository } from "@modules/Chaveamentos/repository/IChaveamentoRepository";
+import { EsporteRepository } from "@modules/Esportes/repository/EsporteRepository";
+import { IEsporteRepository } from "@modules/Esportes/repository/IEsporteRepository";
 import { EstatisticaJogadorRepository } from "@modules/EstatisticaJogador/repository/EstatisticaJogadorRepository";
 import { IEstatisticaJogadorRepository } from "@modules/EstatisticaJogador/repository/IEstatisticaJogadorRepository";
 import { EstatisticaTimeRepository } from "@modules/EstatisticaTime/repository/EstatisticaTimeRepository";
@@ -40,4 +42,9 @@ container.registerSingleton<ITimeRepository>(
 container.registerSingleton<IEstatisticaTimeRepository>(
   "EstatisticaTimeRepository",
   EstatisticaTimeRepository
+);
+
+container.registerSingleton<IEsporteRepository>(
+  "EsporteRepository",
+  EsporteRepository
 );

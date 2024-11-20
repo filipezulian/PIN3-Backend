@@ -17,9 +17,6 @@ class EstatisticaTime {
 
     @Column()
     qntcamp: number;
-
-    @Column()
-    time_id: number;
     
     @OneToOne(() => Time, time => time.estatistica, {
         cascade: true,

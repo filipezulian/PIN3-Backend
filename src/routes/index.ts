@@ -2,6 +2,7 @@ import { swaggerRoutes } from "@config/swagger";
 import { errorMiddleware } from "@middleware/AppError";
 import { authRoutes } from "@modules/Auth/routes";
 import { chaveamentoRoutes } from "@modules/Chaveamentos/routes";
+import { esporteRoutes } from "@modules/Esportes/routes";
 import { estatisticaJogadorRoutes } from "@modules/EstatisticaJogador/routes";
 import { estatisticaTimeRoutes } from "@modules/EstatisticaTime/routes";
 import { jogadorRoutes } from "@modules/Jogadores/routes";
@@ -51,6 +52,11 @@ const moduleRegister = [
     name: 'Time',
     url: '/time/estatistica',
     handlers: estatisticaTimeRoutes
+  },
+  {
+    name: 'Esporte',
+    url: '/esporte',
+    handlers: esporteRoutes
   },
 ];
 

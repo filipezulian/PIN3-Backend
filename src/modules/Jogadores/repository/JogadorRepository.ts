@@ -7,12 +7,14 @@ import { EstatisticaJogador } from "@modules/EstatisticaJogador/entities/Estatis
 
 class JogadorRepository implements IJogadorRepository {
     private jogadorRepository: Repository<Jogador>;
+    private estatisticaJogadorRepository: Repository<EstatisticaJogador>;
 
     constructor() {
         this.jogadorRepository = getRepository(Jogador);
+        this.estatisticaJogadorRepository = getRepository(EstatisticaJogador);
     }
 
-    async delete(jogador) {
+    async delete(jogador: Jogador) {
         try {
             return await this.jogadorRepository.delete(jogador);
         } catch (error) {
@@ -94,11 +96,36 @@ class JogadorRepository implements IJogadorRepository {
     }
     async listJogadorByOwner(ownerId: number): Promise<Jogador[]> {
         try {
-            return await this.jogadorRepository.find({
+            const jogadores = await this.jogadorRepository.find({
                 where: {
                     jog_owner: ownerId
                 }
-            }) || [];
+            })
+
+            const finalList = [];
+            for (const jogador of jogadores) {
+                const estatistica = await this.estatisticaJogadorRepository.findOne({
+                    where: {
+                        jogador: jogador
+                    }
+                })
+
+                finalList.push({
+                    jog_id: jogador.jog_id,
+                    jog_name: jogador.jog_name,
+                    jog_gender: jogador.jog_gender,
+                    estatistica: {
+                        id: estatistica.estjog_id,
+                        camp_vencidos: estatistica.camp_vencidos,
+                        partidas_vencidas: estatistica.partidas_vencidas,
+                        qntcamp: estatistica.qntcamp,
+                        qntpartidas: estatistica.qntpartidas,
+                        mvp_partidas: estatistica.mvp_partidas,
+                        mvp_camp: estatistica.mvp_camp,
+                    }
+                })
+            }
+            return finalList;
         } catch (error) {
             console.log(error)
             throw new AppError('Algo deu errado, tente novamente mais tarde!', 500)
