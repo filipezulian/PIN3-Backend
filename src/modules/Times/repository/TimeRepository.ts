@@ -3,7 +3,7 @@ import { CreateTimeDTO } from "../dtos/CreateTimeDTO";
 import { Time } from "../entities/Time";
 import { ITimeRepository } from "./ITimeRepository";
 import { AppError } from "@config/AppError";
-import { EstatisticaTime } from "@modules/EstatisticaTime/entities/EstatisticaTime";
+import { EstatisticaTime } from "@modules/rel_EstatisticaTime/entities/EstatisticaTime";
 import { EditTimeDTO } from "../dtos/EditTimeDTO";
 import { Gender } from "utils/Gender";
 import { inject, injectable } from "tsyringe";

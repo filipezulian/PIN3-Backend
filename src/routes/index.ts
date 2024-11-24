@@ -3,9 +3,10 @@ import { errorMiddleware } from "@middleware/AppError";
 import { authRoutes } from "@modules/Auth/routes";
 import { chaveamentoRoutes } from "@modules/Chaveamentos/routes";
 import { esporteRoutes } from "@modules/Esportes/routes";
-import { estatisticaJogadorRoutes } from "@modules/EstatisticaJogador/routes";
-import { estatisticaTimeRoutes } from "@modules/EstatisticaTime/routes";
+import { estatisticaJogadorRoutes } from "@modules/rel_EstatisticaJogador/routes";
+import { estatisticaTimeRoutes } from "@modules/rel_EstatisticaTime/routes";
 import { jogadorRoutes } from "@modules/Jogadores/routes";
+import { timeJogadorRoutes } from "@modules/rel_TimeJogador/routes";
 import { timeRoutes } from "@modules/Times/routes";
 import { usuarioRoutes } from "@modules/Users/routes";
 import { Router } from "express";
@@ -57,6 +58,11 @@ const moduleRegister = [
     name: 'Esporte',
     url: '/esporte',
     handlers: esporteRoutes
+  },
+  {
+    name: 'Time',
+    url: '/timejogador',
+    handlers: timeJogadorRoutes
   },
 ];
 

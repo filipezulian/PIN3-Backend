@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IJogadorRepository } from "../repository/IJogadorRepository";
 import { AppError } from "@config/AppError";
-import { EstatisticaJogadorRepository } from "@modules/EstatisticaJogador/repository/EstatisticaJogadorRepository";
+import { EstatisticaJogadorRepository } from "@modules/rel_EstatisticaJogador/repository/EstatisticaJogadorRepository";
 
 @injectable()
 class CreateJogadorUseCase {

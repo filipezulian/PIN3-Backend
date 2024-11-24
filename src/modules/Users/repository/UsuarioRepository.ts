@@ -107,14 +107,15 @@ class UsuarioRepository implements IUsuarioRepository {
 
     async findUserByEmail(email: string) {
         try {
-            return await this.usuarioRepository.findOne({
+            const user = await this.usuarioRepository.findOne({
                 where: {
                     usr_email: email
                 }
             });
+            return user
         } catch (error) {
             console.log(error);
-            throw new AppError('Algo deu errado, tente novamente mais tarde!', 500)
+            throw new AppError('Não foi possivel achar um usuário com esse email', 400)
         }
     }
 

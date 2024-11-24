@@ -1,3 +1,4 @@
+import { Campeonato } from "@modules/Campeonatos/entities/Campeonato";
 import { Jogador } from "@modules/Jogadores/entities/Jogador";
 import { Time } from "@modules/Times/entities/Time";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -21,6 +22,9 @@ class Usuario {
 
     @OneToMany(() => Time, (time) => time.tim_owner)
     time: Time[];
+
+    @OneToMany(() => Campeonato, (camp) => camp.camp_owner)
+    camp: Campeonato[];
 
     constructor() { }
 }

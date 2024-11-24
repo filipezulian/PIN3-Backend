@@ -1,7 +1,9 @@
 import { Authenticated } from "@middleware/Authorization";
 import { UsuarioController } from "@modules/Users/controller/UsuarioController";
 import { RegisterPaths } from "@routes/paths";
+import { AuthController } from "../controller/AuthController";
 const usuarioController = new UsuarioController();
+const authController = new AuthController();
 const paths = [
     /**
      * @swagger
@@ -67,6 +69,42 @@ const paths = [
         url: '/logout',
         handlers: usuarioController.logout,
         middlewares: [Authenticated]
+    },
+    /**
+     * @swagger
+     * /email:
+     *   post:
+     *     summary: email
+     *     tags:
+     *       - Login
+     *     description:
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               email:
+     *                 type: string
+     *                 description: User Email.
+     *                 example: "filipe.zulian@gmail.com"
+     *     responses:
+     *      201:
+     *        description: Email Sent
+     *      401:
+     *        description: Token missing
+     *      404:
+     *        description: Email not sent
+     *      500:
+     *        description: Internal server error
+     */
+    {
+        method: 'POST',
+        moduleByName: 'email',
+        url: '/email',
+        handlers: authController.sendPasswordResetEmail,
+        middlewares: []
     },
 ];
 

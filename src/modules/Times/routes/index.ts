@@ -126,12 +126,12 @@ const paths = [
    * @swagger
    * /time:
    *   put:
-   *     summary: List your Times
+   *     summary: Edit your Time
    *     security:
    *       - bearerAuth: []
    *     tags:
    *       - Time
-   *     description: Endpoint to list your Times.
+   *     description: Endpoint to edit your Time.
    *     parameters:
    *       - in: query
    *         name: tim_id

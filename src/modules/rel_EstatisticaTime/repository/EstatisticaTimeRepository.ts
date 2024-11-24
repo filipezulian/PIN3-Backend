@@ -38,10 +38,11 @@ class EstatisticaTimeRepository implements IEstatisticaTimeRepository {
         try {
             return await this.estatisticaTimeRepository.findOne({
                 where: {
-                    time_id: timeId
+                    time: timeId
                 }
             })
         } catch (error) {
+            console.log(error)
             throw new AppError('Não foi possivel retornar a estatística do time', 500)
         }
     }

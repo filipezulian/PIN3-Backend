@@ -10,7 +10,6 @@ import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
 import moment from 'moment-timezone';
-import { AppError } from '@config/AppError';
 const timezone = 'America/Sao_Paulo';
 moment.tz.setDefault(timezone);
 

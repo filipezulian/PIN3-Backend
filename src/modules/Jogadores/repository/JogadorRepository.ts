@@ -3,7 +3,7 @@ import { Jogador } from "../entities/Jogador";
 import { IJogadorRepository } from "./IJogadorRepository";
 import { getManager, getRepository, Repository } from "typeorm";
 import { JogadorDTO } from "../dtos/JogadorDTO";
-import { EstatisticaJogador } from "@modules/EstatisticaJogador/entities/EstatisticaJogador";
+import { EstatisticaJogador } from "@modules/rel_EstatisticaJogador/entities/EstatisticaJogador";
 
 class JogadorRepository implements IJogadorRepository {
     private jogadorRepository: Repository<Jogador>;

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { ITimeRepository } from "../repository/ITimeRepository";
 import { CreateTimeDTO } from "../dtos/CreateTimeDTO";
-import { IEstatisticaTimeRepository } from "@modules/EstatisticaTime/repository/IEstatisticaTimeRepository";
+import { IEstatisticaTimeRepository } from "@modules/rel_EstatisticaTime/repository/IEstatisticaTimeRepository";
 
 @injectable()
 class CreateTimeUseCase {

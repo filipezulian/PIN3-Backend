@@ -5,6 +5,7 @@ import { CreateUsuarioDTO } from "../dtos/CreateUsuarioDTO";
 import { CreateUsuarioUseCase } from "../usecase/CreateUsuarioUseCase";
 import { EditUsuarioUseCase } from "../usecase/EditUsuarioUseCase";
 import { DeleteUsuarioUseCase } from "../usecase/DeleteUsuarioUseCase";
+import { GetUserByEmailUseCase } from "../usecase/GetUserByEmailUseCase";
 
 class UsuarioController {
     async login(request: Request, response: Response): Promise<Response> {
@@ -57,6 +58,14 @@ class UsuarioController {
             sameSite: 'strict',
         });
         return response.status(201).send()
+    }
+
+    async getUserByEmail(request: Request, response: Response): Promise<Response> {
+        const {email} = request.body as unknown as any;
+        const getUserByEmailUseCase = container.resolve(GetUserByEmailUseCase);
+        const userData = await getUserByEmailUseCase.execute(email);
+        const user = { usr_id: userData.usr_id, usr_email: userData.usr_email, user_name: userData.usr_name};
+        return response.status(201).send(user);
     }
 }
 

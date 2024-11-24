@@ -2,12 +2,14 @@ import { ChaveamentoRepository } from "@modules/Chaveamentos/repository/Chaveame
 import { IChaveamentoRepository } from "@modules/Chaveamentos/repository/IChaveamentoRepository";
 import { EsporteRepository } from "@modules/Esportes/repository/EsporteRepository";
 import { IEsporteRepository } from "@modules/Esportes/repository/IEsporteRepository";
-import { EstatisticaJogadorRepository } from "@modules/EstatisticaJogador/repository/EstatisticaJogadorRepository";
-import { IEstatisticaJogadorRepository } from "@modules/EstatisticaJogador/repository/IEstatisticaJogadorRepository";
-import { EstatisticaTimeRepository } from "@modules/EstatisticaTime/repository/EstatisticaTimeRepository";
-import { IEstatisticaTimeRepository } from "@modules/EstatisticaTime/repository/IEstatisticaTimeRepository";
+import { EstatisticaJogadorRepository } from "@modules/rel_EstatisticaJogador/repository/EstatisticaJogadorRepository";
+import { IEstatisticaJogadorRepository } from "@modules/rel_EstatisticaJogador/repository/IEstatisticaJogadorRepository";
+import { EstatisticaTimeRepository } from "@modules/rel_EstatisticaTime/repository/EstatisticaTimeRepository";
+import { IEstatisticaTimeRepository } from "@modules/rel_EstatisticaTime/repository/IEstatisticaTimeRepository";
 import { IJogadorRepository } from "@modules/Jogadores/repository/IJogadorRepository";
 import { JogadorRepository } from "@modules/Jogadores/repository/JogadorRepository";
+import { ITimeJogadorRepository } from "@modules/rel_TimeJogador/repository/ITimeJogadorRepository";
+import { TimeJogadorRepository } from "@modules/rel_TimeJogador/repository/TimeJogadorRepository";
 import { ITimeRepository } from "@modules/Times/repository/ITimeRepository";
 import { TimeRepository } from "@modules/Times/repository/TimeRepository";
 import { IUsuarioRepository } from "@modules/Users/repository/IUsuarioRepository";
@@ -47,4 +49,9 @@ container.registerSingleton<IEstatisticaTimeRepository>(
 container.registerSingleton<IEsporteRepository>(
   "EsporteRepository",
   EsporteRepository
+);
+
+container.registerSingleton<ITimeJogadorRepository>(
+  "TimeJogadorRepository",
+  TimeJogadorRepository
 );

@@ -152,6 +152,44 @@ const paths = [
     handlers: usuarioController.delete,
     middlewares: [Authenticated]
   },
+ /**
+   * @swagger
+   * /usuario/getByEmail:
+   *   post:
+   *     summary: Get user by email
+   *     security:
+   *       - bearerAuth: []
+   *     tags:
+   *       - Usuario
+   *     description: Get user by email
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               email:
+   *                 type: string
+   *                 description: The email address of the user.
+   *                 example: filipe.zulian@gmail.com
+   *     responses:
+   *       200:
+   *         description: User created successfully
+   *       401:
+   *         description: Token missing or invalid
+   *       400:
+   *         description: Invalid or missing request body
+   *       500:
+   *         description: Internal server error
+   */
+  {
+    method: 'POST',
+    moduleByName: 'Usuario',
+    url: '/getByEmail',
+    handlers: usuarioController.getUserByEmail,
+    middlewares: []
+  },
 ];
 
 const usuarioRoutes = RegisterPaths({ paths });

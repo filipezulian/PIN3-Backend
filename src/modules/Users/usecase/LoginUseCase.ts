@@ -17,7 +17,7 @@ class LoginUseCase {
 
             const user = await this.usuarioRepository.findUserByEmail(email);
             if (!user) {
-                throw new AppError('Invalid email or password', 401);
+                throw new AppError('Email ou senha inválido', 401);
             }
             const hashedPassword = await this.usuarioRepository.hashString(password);
             if (await this.usuarioRepository.validatePassword(user, hashedPassword)) {
