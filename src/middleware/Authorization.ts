@@ -11,7 +11,7 @@ export const Authenticated = (
     return next();
   }
 
-  const token = request.cookies?.accessToken;
+  const token = request.headers?.authorization;
   if (!token) {
     throw new AppError('Invalid Token, please login', 401);
   }
