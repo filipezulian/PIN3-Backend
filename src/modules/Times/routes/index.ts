@@ -130,6 +130,41 @@ const paths = [
   },
  /**
    * @swagger
+   * /time/jogadores:
+   *   post:
+   *     summary: List your Times' jogadores
+   *     security:
+   *       - bearerAuth: []
+   *     tags:
+   *       - Time
+   *     description: Endpoint to List your Times' jogadores.
+   *     parameters:
+   *       - in: query
+   *         name: time_id
+   *         description: Id do time
+   *         schema:
+   *           type: integer
+   *           example: 1
+   *         required: true
+   *     responses:
+   *       200:
+   *         description: Times listed successfully
+   *       401:
+   *         description: Token missing or invalid
+   *       400:
+   *         description: Invalid or missing request body
+   *       500:
+   *         description: Internal server error
+   */
+  {
+    method: 'POST',
+    moduleByName: 'Time',
+    url: '/jogadores',
+    handlers: timeController.listJogadorPorTime,
+    middlewares: [Authenticated]
+  },
+ /**
+   * @swagger
    * /time:
    *   put:
    *     summary: Edit your Time

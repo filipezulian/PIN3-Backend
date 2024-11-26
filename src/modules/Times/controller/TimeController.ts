@@ -8,6 +8,7 @@ import { EditTimeDTO } from "../dtos/EditTimeDTO";
 import { ListTimeByUsuarioUseCase } from "../usecase/ListTimeByUsuarioUseCase";
 import { GerarTimeDTO } from "../dtos/GerarTimeDTO";
 import { GerarTimesUseCase } from "../usecase/GerarTimesUseCase";
+import { ListJogadorByTimeUseCase } from "../usecase/ListJogadorByTimeUseCase";
 
 class TimeController {
     async create(request: Request, response: Response): Promise<Response> {
@@ -45,6 +46,13 @@ class TimeController {
         const gerarTimesUsecase = container.resolve(GerarTimesUseCase)
         const times = await gerarTimesUsecase.execute({esporteId, tim_gender, jogadores, usuarioId, playersPerTeam});
         return response.status(201).send(times);
+    }
+
+    async listJogadorPorTime(request: Request, response: Response): Promise<Response>  {
+        const {time_id} = request.query as unknown as any;
+        const listJogadorByTimeUseCase = container.resolve(ListJogadorByTimeUseCase);
+        const jogadores = await listJogadorByTimeUseCase.execute(time_id);
+        return response.status(201).send(jogadores)
     }
 }
 
