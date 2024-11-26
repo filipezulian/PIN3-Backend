@@ -29,6 +29,12 @@ const paths = [
    *                 type: string
    *                 description: The Time's gender (masculino, feminino, misto).
    *                 example: misto
+    *               times:
+    *                 type: array
+    *                 items:
+    *                   type: integer
+    *                 description: Array of times.
+    *                 example: [1,2,3,4,5,6,7,8]
    *     responses:
    *       200:
    *         description: Time created successfully

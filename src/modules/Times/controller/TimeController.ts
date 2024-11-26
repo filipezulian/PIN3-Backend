@@ -14,7 +14,7 @@ class TimeController {
         const infoCreate: CreateTimeDTO = request.body as unknown as CreateTimeDTO;
         const userId = request.user.id;
         const createTimeUseCase = container.resolve(CreateTimeUseCase)
-        const time = await createTimeUseCase.execute({tim_name: infoCreate.tim_name, tim_gender: infoCreate.tim_gender, tim_owner: userId});
+        const time = await createTimeUseCase.execute({tim_name: infoCreate.tim_name, tim_gender: infoCreate.tim_gender, tim_owner: userId, times: infoCreate.times});
         return response.status(201).send(time);
     }
 
