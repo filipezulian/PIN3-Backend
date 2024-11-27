@@ -11,7 +11,10 @@ export const Authenticated = (
     return next();
   }
 
-  const token = request.headers?.authorization;
+  let token = request.headers.authorization;
+  const tokenHeader = request.cookies?.accessToken;
+  token = token || tokenHeader;
+
   if (!token) {
     throw new AppError('Invalid Token, please login', 401);
   }
@@ -22,6 +25,6 @@ export const Authenticated = (
     next();
   } catch (err) {
     console.error('Token verification error:', err);
-    throw new AppError('Invalid Token, please login', 401);
-  }
+    throw new AppError('Invalid Token, please login', 401);
+  }
 };

@@ -10,6 +10,7 @@ import { timeJogadorRoutes } from "@modules/rel_TimeJogador/routes";
 import { timeRoutes } from "@modules/Times/routes";
 import { usuarioRoutes } from "@modules/Users/routes";
 import { Router } from "express";
+import { campeonatoRoutes } from "@modules/Campeonatos/routes";
 
 const router = Router();
 
@@ -63,6 +64,11 @@ const moduleRegister = [
     name: 'Time',
     url: '/timejogador',
     handlers: timeJogadorRoutes
+  },
+  {
+    name: 'Campeonato',
+    url: '/campeonatos',
+    handlers: campeonatoRoutes
   },
 ];
 

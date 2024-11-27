@@ -15,6 +15,14 @@ import { TimeRepository } from "@modules/Times/repository/TimeRepository";
 import { IUsuarioRepository } from "@modules/Users/repository/IUsuarioRepository";
 import { UsuarioRepository } from "@modules/Users/repository/UsuarioRepository";
 import { container } from "tsyringe";
+import { ICampChavRepository } from "@modules/rel_CampeonatoChavemento/repository/ICampChavRepository";
+import { CampChavRepository } from "@modules/rel_CampeonatoChavemento/repository/CampChavRepository";
+import { ITimeCampeonatoRepository } from "@modules/rel_TimeCampeonato/repository/ITimeCampeonatoRepository";
+import { TimeCampeonatoRepository } from "@modules/rel_TimeCampeonato/repository/TimeCampeonatoRepository";
+import { IEstatisticaCampeonatoRepository } from "@modules/rel_EstatisticaCampeonato/repository/IEstatisticaCampeonatoRepository";
+import { EstatisticaCampeonatoRepository } from "@modules/rel_EstatisticaCampeonato/repository/EstatisticaCampeonatoRepository";
+import { ICampeonatoRepository } from "@modules/Campeonatos/repository/ICampeonatoRepository";
+import { CampeonatoRepository } from "@modules/Campeonatos/repository/CampeonatoRepository";
 
 container.registerSingleton<IUsuarioRepository>(
   'UsuarioRepository',
@@ -54,4 +62,24 @@ container.registerSingleton<IEsporteRepository>(
 container.registerSingleton<ITimeJogadorRepository>(
   "TimeJogadorRepository",
   TimeJogadorRepository
+);
+
+container.registerSingleton<ICampChavRepository>(
+  "CampChavRepository",
+  CampChavRepository
+);
+
+container.registerSingleton<ITimeCampeonatoRepository>(
+  "TimeCampeonatoRepository",
+  TimeCampeonatoRepository
+);
+
+container.registerSingleton<IEstatisticaCampeonatoRepository>(
+  "EstatisticaCampeonatoRepository",
+  EstatisticaCampeonatoRepository
+);
+
+container.registerSingleton<ICampeonatoRepository>(
+  "CampeonatoRepository",
+  CampeonatoRepository
 );
