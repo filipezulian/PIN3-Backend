@@ -57,7 +57,7 @@ class TimeController {
     }
 
     async createMultiple(request: Request, response: Response): Promise<Response>  {
-        const times = request.query as unknown as any;
+        const times = request.body as unknown as any;
         const userId = request.user.id;
         const createMultipleTimeUseCase = container.resolve(CreateMultipleTimeUseCase);
         const jogadores = await createMultipleTimeUseCase.execute(userId, times);

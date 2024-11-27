@@ -14,7 +14,8 @@ class CreateMultipleTimeUseCase {
         private timeJogadorRepository: ITimeJogadorRepository,
     ) { }
 
-    async execute(userId, times) {
+    async execute(userId, {times}) {
+        console.log('forhonoer',times)
         for (const time of times) {
             const timeGerado = await this.timeRepository.create({
                 tim_owner: userId,
@@ -25,7 +26,7 @@ class CreateMultipleTimeUseCase {
             await this.estatisticaTimeRepository.create(timeGerado);
             await this.timeJogadorRepository.createMultiple(time.jogadores, timeGerado.tim_id)
         }
-        return {message: 'Times gerado com sucesso'}
+        // return {message: 'Times gerado com sucesso'}
     }
 }
 
