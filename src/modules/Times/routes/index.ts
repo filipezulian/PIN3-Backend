@@ -278,6 +278,70 @@ const paths = [
      handlers: timeController.gerarTimes,
      middlewares: [Authenticated]
    },
+    /**
+   * @swagger
+   * /time/multiple:
+   *   post:
+   *     summary: Create multiple teams
+   *     security:
+   *       - bearerAuth: []
+   *     tags:
+   *       - Time
+   *     description: Endpoint to create multiple teams.
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               times:
+   *                 type: array
+   *                 items:
+   *                   type: object
+   *                   properties:
+   *                     tim_name:
+   *                       type: string
+   *                       description: Name of the team.
+   *                     tim_gender:
+   *                       type: string
+   *                       enum: [masculino, feminino]
+   *                       description: Gender of the team.
+   *                     jogadores:
+   *                       type: array
+   *                       items:
+   *                         type: integer
+   *                       description: List of player IDs.
+   *                 description: Array of teams.
+   *                 example: [
+   *                   {
+   *                     "tim_name": "teste_masculino",
+   *                     "tim_gender": "masculino",
+   *                     "jogadores": [11, 12, 13, 14]
+   *                   },
+   *                   {
+   *                     "tim_name": "teste_feminino",
+   *                     "tim_gender": "feminino",
+   *                     "jogadores": [15, 16, 17, 18]
+   *                   }
+   *                 ]
+   *     responses:
+   *       200:
+   *         description: Teams created successfully
+   *       401:
+   *         description: Token missing or invalid
+   *       400:
+   *         description: Invalid or missing request body
+   *       500:
+   *         description: Internal server error
+   */
+    {
+      method: 'POST',
+      moduleByName: 'Time',
+      url: '/multiple',
+      handlers: timeController.createMultiple,
+      middlewares: [Authenticated]
+    },
 ];
 
 const timeRoutes = RegisterPaths({ paths });

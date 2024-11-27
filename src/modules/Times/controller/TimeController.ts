@@ -9,6 +9,7 @@ import { ListTimeByUsuarioUseCase } from "../usecase/ListTimeByUsuarioUseCase";
 import { GerarTimeDTO } from "../dtos/GerarTimeDTO";
 import { GerarTimesUseCase } from "../usecase/GerarTimesUseCase";
 import { ListJogadorByTimeUseCase } from "../usecase/ListJogadorByTimeUseCase";
+import { CreateMultipleTimeUseCase } from "../usecase/CreateMultipleTimeUseCase";
 
 class TimeController {
     async create(request: Request, response: Response): Promise<Response> {
@@ -52,6 +53,14 @@ class TimeController {
         const {time_id} = request.query as unknown as any;
         const listJogadorByTimeUseCase = container.resolve(ListJogadorByTimeUseCase);
         const jogadores = await listJogadorByTimeUseCase.execute(time_id);
+        return response.status(201).send(jogadores)
+    }
+
+    async createMultiple(request: Request, response: Response): Promise<Response>  {
+        const times = request.query as unknown as any;
+        const userId = request.user.id;
+        const createMultipleTimeUseCase = container.resolve(CreateMultipleTimeUseCase);
+        const jogadores = await createMultipleTimeUseCase.execute(userId, times);
         return response.status(201).send(jogadores)
     }
 }
