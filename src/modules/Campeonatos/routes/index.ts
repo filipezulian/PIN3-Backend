@@ -46,7 +46,7 @@ const paths = [
     *                 example: [15, 16]
     *     responses:
     *       200:
-    *         description: Time created successfully
+    *         description: created campeonato successfully
     *       401:
     *         description: Token missing or invalid
     *       400:
@@ -59,6 +59,120 @@ const paths = [
     moduleByName: 'Campeonato',
     url: '/',
     handlers: campeonatoController.create,
+    middlewares: [Authenticated]
+  },
+  /**
+    * @swagger
+    * /campeonatos:
+    *   put:
+    *     summary: edit Campeonato
+    *     security:
+    *       - bearerAuth: []
+    *     tags:
+    *       - Campeonato
+    *     description: Endpoint to edit Campeonato.
+    *     requestBody:
+    *       required: true
+    *       content:
+    *         application/json:
+    *           schema:
+    *             type: object
+    *             properties:
+    *               camp_id:
+    *                 type: integer
+    *                 description: Id
+    *                 example: 1
+    *               camp_nome:
+    *                 type: string
+    *                 description: Name
+    *                 example: 'teste 1'
+    *               camp_obs:
+    *                 type: string
+    *                 description: Campeonato obs
+    *                 example: Esse eh um exemplo
+    *     responses:
+    *       200:
+    *         description: edited campeonato successfully
+    *       401:
+    *         description: Token missing or invalid
+    *       400:
+    *         description: Invalid or missing request body
+    *       500:
+    *         description: Internal server error
+    */
+  {
+    method: 'PUT',
+    moduleByName: 'Campeonato',
+    url: '/',
+    handlers: campeonatoController.edit,
+    middlewares: [Authenticated]
+  },
+  /**
+    * @swagger
+    * /campeonatos:
+    *   get:
+    *     summary: Get Campeonato
+    *     tags:
+    *       - Campeonato
+    *     description: Endpoint to Get Campeonato.
+    *     parameters:
+    *       - in: query
+    *         name: camp_id
+    *         description: Id do campeonato
+    *         schema:
+    *           type: integer
+    *           example: 1
+    *         required: true
+    *     responses:
+    *       200:
+    *         description: Received Campeonato successfully
+    *       401:
+    *         description: Token missing or invalid
+    *       400:
+    *         description: Invalid or missing request body
+    *       500:
+    *         description: Internal server error
+    */
+  {
+    method: 'GET',
+    moduleByName: 'Campeonato',
+    url: '/',
+    handlers: campeonatoController.view,
+    middlewares: []
+  },
+  /**
+    * @swagger
+    * /campeonatos:
+    *   delete:
+    *     summary: delete Campeonato
+    *     security:
+    *       - bearerAuth: []
+    *     tags:
+    *       - Campeonato
+    *     description: Endpoint to delete Campeonato.
+    *     parameters:
+    *       - in: query
+    *         name: camp_id
+    *         description: Id do campeonato
+    *         schema:
+    *           type: integer
+    *           example: 1
+    *         required: true
+    *     responses:
+    *       200:
+    *         description: Time deleted successfully
+    *       401:
+    *         description: Token missing or invalid
+    *       400:
+    *         description: Invalid or missing request body
+    *       500:
+    *         description: Internal server error
+    */
+  {
+    method: 'DELETE',
+    moduleByName: 'Campeonato',
+    url: '/',
+    handlers: campeonatoController.delete,
     middlewares: [Authenticated]
   },
 ];

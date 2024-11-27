@@ -13,6 +13,19 @@ class CampChavRepository implements ICampChavRepository {
         this.campeonatoRepository = getRepository(Campeonato);
     }
 
+    async getChaveamentoByCampeonato(camp_id: number) {
+        try {
+            const chaveamento = await this.campChavRepository.findOne({where:{
+                camp_id: camp_id
+            }})
+
+            return chaveamento.chaveamento;
+        } catch (error) {
+            console.log(error)
+            throw new AppError('Não foi possível achar o Chaveamento', 500)
+        }
+    }
+
     async validateExists(camp_id: number): Promise<boolean> {
             const campChav = await this.campChavRepository.findOne({ where: { camp_id } });
             return campChav ? true : false;
@@ -35,7 +48,7 @@ class CampChavRepository implements ICampChavRepository {
 
     async getCampeonato(camp_id: number) {
         try {
-            await this.campeonatoRepository.findOne({
+            return await this.campeonatoRepository.findOne({
                 where: {
                     camp_id: camp_id
                 }

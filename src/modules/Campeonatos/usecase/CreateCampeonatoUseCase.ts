@@ -27,9 +27,9 @@ constructor(
         try {
             const campeonato = await this.campeonatoRepository.create(data.camp_nome, data.camp_obs, data.esp_id, data.chav_id, camp_owner);
             const timeCamp: TimeCampeonato[] = await this.timeCampeonatoRepository.create(campeonato.camp_id, data.times)
-            let estatisticas = await this.estatisticaCampeonatoRepository.validateExists(campeonato.camp_id ? campeonato.camp_id : 1);
-            if (estatisticas) {
-                estatisticas = await this.estatisticaCampeonatoRepository.create(campeonato.camp_id ? campeonato.camp_id : 1, timeCamp);
+            let estatisticas = await this.estatisticaCampeonatoRepository.validateExists(campeonato.camp_id);
+            if (!estatisticas) {
+                estatisticas = await this.estatisticaCampeonatoRepository.create(campeonato.camp_id, timeCamp);
             }
             const chaveamentoData = await this.chaveamentoRepository.generateChaveamentoWithIds({chav_id: data.chav_id, times_id: data.times})
             const chavCamp = await this.createChavCamp(campeonato.camp_id, chaveamentoData);

@@ -18,9 +18,9 @@ class EstatisticaCampeonatoRepository implements IEstatisticaCampeonatoRepositor
     }
 
     async validateExists(camp_id: number) {
-        const EstatisticaExists = await this.estcampRepository.findOne({where:{camp_id: camp_id}}) 
-        if (EstatisticaExists) {
-            return EstatisticaExists
+        const estatisticaExists = await this.estcampRepository.findOne({where:{camp_id: camp_id}}) 
+        if (estatisticaExists) {
+            return estatisticaExists
         }
         return false
     }

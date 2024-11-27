@@ -22,6 +22,9 @@ class Campeonato {
     @Column()
     camp_owner: number
 
+    @Column()
+    final_fl: boolean
+
     @OneToOne(() => CampeonatoChaveamento, campeonatoChaveamento => campeonatoChaveamento.campeonato)
     campeonatoChaveamento: CampeonatoChaveamento;
       
